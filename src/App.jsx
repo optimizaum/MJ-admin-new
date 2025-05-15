@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import Post from './components/Post/Post';
 import PostDetails from './components/Post/PostDetails';
@@ -16,31 +16,33 @@ import EditForm from './components/Post/EditForm';
 import UpdateCustomForm from './components/Post/UpdateCustomForm';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login state
+
   return (
     <Router>
-      <div className="flex h-screen">
-        {/* Sidebar */}
-        <Sidebar />
-
-        {/* Main Content */}
-        <div className="flex-1 p-6 overflow-y-auto bg-gray-100">
-          <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Dashboard />} />
-            <Route path="/post" element={<Post />} />
-            <Route path="/users" element={<User />} />
-            <Route path="/post-details/:id" element={<PostDetails />} />
-            <Route path="/user-details" element={<UserDetails />} />
-            <Route path="/setting" element={<Setting />} />
-            <Route path="/add-post" element={<AddPost />} />
-            <Route path="/add-form/:id" element={<AddForm />} />
-            <Route path="/answer" element={<Answer />} />
-            <Route path="/answer-details" element={<AnswerDetails />} />
-            <Route path="/update-form/:id" element={<EditForm />} />
-            <Route path="/update_custom-form/:id" element={<UpdateCustomForm />} />
-          </Routes>
+      {!isLoggedIn ? (
+        <Login onLogin={() => setIsLoggedIn(true)} />
+      ) : (
+        <div className="flex h-screen">
+          <Sidebar />
+          <div className="flex-1 p-6 overflow-y-auto bg-gray-100">
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/post" element={<Post />} />
+              <Route path="/users" element={<User />} />
+              <Route path="/post-details/:id" element={<PostDetails />} />
+              <Route path="/user-details" element={<UserDetails />} />
+              <Route path="/setting" element={<Setting />} />
+              <Route path="/add-post" element={<AddPost />} />
+              <Route path="/add-form/:id" element={<AddForm />} />
+              <Route path="/answer" element={<Answer />} />
+              <Route path="/answer-details" element={<AnswerDetails />} />
+              <Route path="/update-form/:id" element={<EditForm />} />
+              <Route path="/update_custom-form/:id" element={<UpdateCustomForm />} />
+            </Routes>
+          </div>
         </div>
-      </div>
+      )}
     </Router>
   );
 }

@@ -1,74 +1,61 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleLogin = (e) => {
-    e.preventDefault(); // Prevent page reload
-    console.log('Email:', email);
-    console.log('Password:', password);
-    // You can add API call here
-  };
+    e.preventDefault();
 
-  const fillDemoCredentials = () => {
-    setEmail('admin@123mjvdo.com');
-    setPassword('Admin@123');
+    const staticEmail = 'admin@mjvdo.com';
+    const staticPassword = 'admin123';
+
+    if (email === staticEmail && password === staticPassword) {
+      if (onLogin) onLogin();
+      navigate('/');
+    } else {
+      alert('Invalid email or password');
+    }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-lg">
-        <h2 className="text-2xl font-bold text-center text-gray-800">
-          Login to your account
-        </h2>
+    <div className="flex items-center justify-center h-screen bg-gray-100">
+      <form onSubmit={handleLogin} className="bg-white p-8 rounded shadow max-w-sm w-full">
+        <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
 
-        <div className="text-right">
-          <button
-            type="button"
-            onClick={fillDemoCredentials}
-            className="text-sm text-blue-500 hover:underline"
-          >
-            
-          </button>
+        <div className="mb-4">
+          <label className="block mb-1 font-medium">Email</label>
+          <input
+            type="email"
+            className="w-full px-4 py-2 border border-gray-300 rounded"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="admin@mjvdo.com"
+            required
+          />
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div>
-            <label className="block mb-1 text-gray-600">Email Address</label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-          <div>
-            <label className="block mb-1 text-gray-600">Password</label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 transition duration-300"
-          >
-            Login
-          </button>
-        </form>
+        <div className="mb-6">
+          <label className="block mb-1 font-medium">Password</label>
+          <input
+            type="password"
+            className="w-full px-4 py-2 border border-gray-300 rounded"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="admin123"
+            required
+          />
+        </div>
 
-        <p className="text-sm text-center text-gray-600">
-          Don't have an account?{' '}
-          <a href="#" className="text-blue-500 hover:underline">
-            Sign Up
-          </a>
-        </p>
-      </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 cursor-pointer"
+        >
+          Login
+        </button>
+      </form>
     </div>
   );
 };

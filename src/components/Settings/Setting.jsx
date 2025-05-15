@@ -3,13 +3,17 @@ import React, { useState } from 'react';
 const Setting = () => {
   const [companyName, setCompanyName] = useState('');
   const [logo, setLogo] = useState(null);
+  const [logoPreview, setLogoPreview] = useState(null);
 
   // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     if (companyName && logo) {
       console.log('Company Name:', companyName);
-      console.log('Logo:', logo.name); // or use logo for uploading the file
+      console.log('Logo:', logo.name);
+      setCompanyName('');
+      setLogo(null);
+      setLogoPreview(null);
     } else {
       alert('Please fill in all fields');
     }
@@ -20,15 +24,18 @@ const Setting = () => {
     const file = e.target.files[0];
     if (file) {
       setLogo(file);
+      setLogoPreview(URL.createObjectURL(file));
     }
   };
 
   return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">Company Settings</h2>
+    <div className="p-6 bg-white rounded-lg max-w-lg mx-auto  shadow items-center mt-10">
+      <h2 className="text-2xl font-bold mb-4 text-center">Company Settings</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label htmlFor="companyName" className="block text-lg font-semibold mb-2">Company Name</label>
+          <label htmlFor="companyName" className="block text-lg font-semibold mb-2">
+            Company Name
+          </label>
           <input
             type="text"
             id="companyName"
@@ -41,7 +48,9 @@ const Setting = () => {
         </div>
 
         <div>
-          <label htmlFor="logo" className="block text-lg font-semibold mb-2">Upload Logo</label>
+          <label htmlFor="logo" className="block text-lg font-semibold mb-2">
+            Upload Logo
+          </label>
           <input
             type="file"
             id="logo"
@@ -50,13 +59,19 @@ const Setting = () => {
             accept="image/*"
             required
           />
+          {logoPreview && (
+            <div className="mt-2">
+              <p className="text-sm text-gray-600">Logo Preview:</p>
+              <img src={logoPreview} alt="Logo Preview" className="w-24 h-24 object-contain mt-1 border rounded" />
+            </div>
+          )}
         </div>
 
         <button
           type="submit"
           className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
         >
-          Save Settings
+          Save
         </button>
       </form>
     </div>
