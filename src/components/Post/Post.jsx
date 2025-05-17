@@ -86,11 +86,21 @@ const Post = () => {
                                 <td className="py-4 px-6">{post.title}</td>
                                 <td className="py-4 px-6">{post.sourceType}</td>
                                 <td className="py-4 px-6">
-                                    <img
-                                        src={`${API_BASE_URL}/user/source${post.source}`}
-                                        alt={post.title}
-                                        className="w-16 h-16 object-cover rounded-md "
-                                    />
+                                    {post.source?.match(/\.(jpeg|jpg|png|gif|webp)$/i) ? (
+                                        <img
+                                            src={`${API_BASE_URL}/uploads/${post.source}`}
+                                            alt={post.title}
+                                            className="w-16 h-16 object-cover rounded-md"
+                                        />
+                                    ) : post.source?.match(/\.(mp4|webm|ogg)$/i) ? (
+                                        <video
+                                            src={`${API_BASE_URL}/uploads/${post.source}`}
+                                            controls
+                                            className="w-24 h-16 object-cover rounded-md"
+                                        />
+                                    ) : (
+                                        <span>No preview</span>
+                                    )}
                                 </td>
 
                                 <td className="py-4 px-6">{post.views}</td>
