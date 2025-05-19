@@ -1,22 +1,39 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const staticEmail = 'admin@mjvdo.com';
-    const staticPassword = 'admin123';
+    try {
+      const response = await axios.post(`${API_BASE_URL}/admin/login`, {
+        email,
+        password,
+      });
 
-    if (email === staticEmail && password === staticPassword) {
-      if (onLogin) onLogin();
-      navigate('/');
-    } else {
-      alert('Invalid email or password');
+      if (response.data.success) {
+        const token = response.data.token;
+
+        // Save token and login state in localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('isLoggedIn', 'true');
+
+        if (onLogin) onLogin();
+
+        alert('Login successful!');
+        navigate('/');
+      } else {
+        alert('Invalid credentials');
+      }
+    } catch (error) {
+      console.error('Login Error:', error);
+      alert('Login failed. Please check your credentials or try again later.');
     }
   };
 

@@ -8,7 +8,7 @@ const Sidebar = () => {
     { name: 'Post', path: '/post' },
     { name: 'Users', path: '/users' },
     { name: 'Answer', path: '/answer' },
-    { name: 'Settings', path: '/setting' },
+    { name: 'Settings', path: '/profile-list' },
   ];
 
   return (
