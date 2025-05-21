@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import Sidebar from './components/Sidebar';
 import Post from './components/Post/Post';
 import PostDetails from './components/Post/PostDetails';
