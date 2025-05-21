@@ -11,7 +11,6 @@ const ProfileTable = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
     const navigate = useNavigate();
-
     console.log('profile data', profile)
     useEffect(() => {
         getProfile();
@@ -57,7 +56,6 @@ const ProfileTable = () => {
                         </tr>
                     </thead>
                     <tbody className="text-gray-700">
-
                         <tr  className="border-b">
                             {/* <td className="py-4 px-6">{page * rowsPerPage + index + 1}</td> */}
                             <td className="py-4 px-6">{profile?.setting?.name}</td>

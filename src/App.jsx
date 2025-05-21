@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-
 import CommonLayout from './components/CommonLayout';
 import Dashboard from './components/Dashboard';
 import Post from './components/Post/Post';

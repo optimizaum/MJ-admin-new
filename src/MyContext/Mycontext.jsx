@@ -5,10 +5,11 @@ import React from "react";
 export const MyContext = createContext();
 const MyContextProvider = (props) => {
     const [postData, setPostData] = useState(false);
-    const [profile,setProfile]=useState([]);
+    const [profile, setProfile] = useState([]);
     const [userData, setUserData] = useState(false);
     const [userSingleData, setUserSingleData] = useState([]);
     const [updatePostData, setupdatePostData] = useState([]);
+
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     // -------------display all post data--------------
@@ -23,7 +24,6 @@ const MyContextProvider = (props) => {
             console.error('Error:', error);
         }
     };
-
     // ---------------get single post data----------------
     const getSingleData = async (_id) => {
         try {
@@ -83,13 +83,32 @@ const MyContextProvider = (props) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/user/get-setting`, {
             });
-            console.log("profile response-------------", response);
+            // console.log("profile response-------------", response);
             setProfile(response?.data);
 
         } catch (error) {
             console.error('Error:', error);
         }
     };
+    // ---------get answer----------------
+    const [answerData, setAnswerData] = useState([]);
+
+    const fetchAnswer = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/admin/answer`, {
+            });
+            console.log("response- answer------------", response.data.data);
+            setAnswerData(response?.data?.data);
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+    // ==========
+    const [answerId, setnswerId] = useState([]);
+    // const setAnswerId = (id) => {
+        
+    // }
 
     const value = {
         postData,
@@ -102,7 +121,11 @@ const MyContextProvider = (props) => {
         putPostData,
         profile,
         getProfile,
-        API_BASE_URL
+        answerData,
+        fetchAnswer,
+        API_BASE_URL,
+        answerId,
+        setnswerId
     };
 
     return (
