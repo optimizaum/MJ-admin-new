@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Login = ({ onLogin }) => {
+const   Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -12,20 +12,16 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/admin/login`, {
+      const response = await axios.post(`${API_BASE_URL}/user/login`, {
         email,
         password,
       });
 
-      if (response.data.success) {
+      if (response.data) {
         const token = response.data.token;
-
         // Save token and login state in localStorage
-        localStorage.setItem('token', token);
-        localStorage.setItem('isLoggedIn', 'true');
-
+        localStorage.setItem('token', token); 
         if (onLogin) onLogin();
-
         alert('Login successful!');
         navigate('/');
       } else {

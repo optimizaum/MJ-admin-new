@@ -1,8 +1,9 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 // import { FaHome, FaUsers, FaCog, FaSignOutAlt } from 'react-icons/fa';
 
 const Sidebar = () => {
+  const navigate = useNavigate();
   const navItems = [
     { name: 'Dashboard', path: '/' },
     { name: 'Post', path: '/post' },
@@ -10,6 +11,11 @@ const Sidebar = () => {
     { name: 'Answer', path: '/answer' },
     { name: 'Settings', path: '/profile-list' },
   ];
+
+  const handleLogOut = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
 
   return (
     <div className="h-screen w-64 bg-blue-400 text-white flex flex-col shadow-lg">
@@ -40,16 +46,12 @@ const Sidebar = () => {
 
       {/* Logout */}
       <div className="p-6 border-t border-white/20">
-        <NavLink
-          to="/logout"
-          className={({ isActive }) =>
-            `flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-all duration-300
-            ${isActive ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'}`
-          }
+        <button
+          onClick={handleLogOut}
+          className="w-full text-left flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-all duration-300 hover:bg-white/10"
         >
-          {/* <FaSignOutAlt size={22} /> */}
           <span className="text-lg font-medium">Logout</span>
-        </NavLink>
+        </button>
       </div>
     </div>
   );
