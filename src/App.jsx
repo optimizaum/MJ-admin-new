@@ -43,6 +43,7 @@ function App() {
         <Route path="add-form/:id" element={<AddForm />} />
         <Route path="answer" element={<Answer />} />
         <Route path="answer-details" element={<AnswerDetails />} />
+        <Route path="answer-details/:id" element={<AnswerDetails />} />
         <Route path="update-form/:id" element={<EditForm />} />
         <Route path="update_custom-form/:id" element={<UpdateCustomForm />} />
       </Route>

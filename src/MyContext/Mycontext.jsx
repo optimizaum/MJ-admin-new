@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createContext, useState } from "react";
 import React from "react";
+import { toast } from 'react-toastify';
 
 export const MyContext = createContext();
 const MyContextProvider = (props) => {
@@ -99,16 +100,30 @@ const MyContextProvider = (props) => {
             });
             console.log("response- answer------------", response.data.data);
             setAnswerData(response?.data?.data);
-
         } catch (error) {
             console.error('Error:', error);
         }
     };
-    // ==========
-    const [answerId, setnswerId] = useState([]);
-    // const setAnswerId = (id) => {
-        
-    // }
+    // ========== single get amswer===================
+    const [answerId, setAnswerId] = useState({});
+    const fetchSingleAnswer = async (id) => {
+        try {
+            console.log("Answer ID passed:", id);
+            const response = await axios.get(`${API_BASE_URL}/admin/answer/${id}`);
+            console.log("Fetched single answer ====", response.data);
+
+            if (response.data.length) {
+                setAnswerId(response.data);
+                toast.success("Answer fetched successfully!");
+            } else {
+                console.log("checking response ==> ", response.data);
+                toast.info("No answer found for the given ID.");
+            }
+        } catch (error) {
+            console.error("Error fetching single answer:", error);
+            toast.error(error.response?.data?.message || error.message);
+        }
+    };
 
     const value = {
         postData,
@@ -125,7 +140,7 @@ const MyContextProvider = (props) => {
         fetchAnswer,
         API_BASE_URL,
         answerId,
-        setnswerId
+        fetchSingleAnswer
     };
 
     return (

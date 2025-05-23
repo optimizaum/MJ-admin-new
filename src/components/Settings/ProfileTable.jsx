@@ -42,7 +42,7 @@ const ProfileTable = () => {
                         onClick={handleAddProfile}
                         className="px-3 py-2 bg-blue-400 text-white rounded-lg font-bold"
                     >
-                        Add Profile
+                        Update Profile
                     </button>
                 </div>
 
@@ -52,7 +52,7 @@ const ProfileTable = () => {
                             {/* <th className="py-3 px-6 text-left">Id</th> */}
                             <th className="py-3 px-6 text-left">Company Name</th>
                             <th className="py-3 px-6 text-left">Logo Image</th>
-                            <th className="py-3 px-6 text-left">Actions</th>
+                            {/* <th className="py-3 px-6 text-left">Actions</th> */}
                         </tr>
                     </thead>
                     <tbody className="text-gray-700">
@@ -66,7 +66,7 @@ const ProfileTable = () => {
                                     className="w-16 h-16 object-contain  rounded"
                                 />
                             </td>
-                            <td className="py-4 px-6 flex gap-2">
+                            {/* <td className="py-4 px-6 flex gap-2">
                                 <button
                                     onClick={() => handleEditProfile(profile._id)}
                                     className="text-blue-500 hover:text-blue-700"
@@ -75,11 +75,11 @@ const ProfileTable = () => {
                                 </button>
                                 <button
                                     className="text-red-500 hover:text-red-700"
-                                // onClick={() => handleDelete(item._id)} // Optional: implement delete
+                                
                                 >
                                     <MdDelete className="text-xl" />
                                 </button>
-                            </td>
+                            </td> */}
                         </tr>
 
                     </tbody>
