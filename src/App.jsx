@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect,useContext } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import CommonLayout from './components/CommonLayout';
 import Dashboard from './components/Dashboard';
@@ -16,16 +16,38 @@ import UpdateCustomForm from './components/Post/UpdateCustomForm';
 import EditProfile from './components/Settings/EditProfile';
 import ProfileTable from './components/Settings/ProfileTable';
 import Login from './components/Login';
+import AboutUs from './components/AboutUs/AboutUs';
+import AboutAll from './components/AboutUs/AboutAllDetails';
+import AboutAllDetails from './components/AboutUs/AboutAllDetails';
+import { MyContext } from './MyContext/Mycontext';
 
 function App() {
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    if (!token) { 
+    if (!token) {
       navigate("/login");
     }
   }, []);
+  // const location = useLocation();
+  // const hideHeaderRoutes = ['/sign'];
+  const { API_BASE_URL, profile, getProfile } = useContext(MyContext);
+  useEffect(() => {
+    getProfile();
+  }, []);
+
+  // const paddingClass = location.pathname === '/sign' ? 'p-0' : 'p-4';
+
+  useEffect(() => {
+    if (profile?.setting) {
+      // Update the title
+      document.title = profile.setting.name || 'MJ Video Services';
+      const faviconUrl = `${API_BASE_URL}/uploads/${profile.setting.logo}`;
+      let favicon = document.querySelector("link[rel~='icon']");
+      favicon.href = faviconUrl;
+    }
+  }, [profile]);
 
   return (
     <Routes>
@@ -46,6 +68,8 @@ function App() {
         <Route path="answer-details/:id" element={<AnswerDetails />} />
         <Route path="update-form/:id" element={<EditForm />} />
         <Route path="update_custom-form/:id" element={<UpdateCustomForm />} />
+        <Route path='/about' element={<AboutUs />} />
+        <Route path='/about-details' element={<AboutAllDetails />} />
       </Route>
     </Routes>
   );

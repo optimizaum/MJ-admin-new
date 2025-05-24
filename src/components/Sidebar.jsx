@@ -1,43 +1,64 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 // import { FaHome, FaUsers, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { IoMdLogOut } from "react-icons/io";
+import { IoSettings } from "react-icons/io5";
+import { SiAnswer } from "react-icons/si";
+import { FaUsers } from "react-icons/fa";
+import { FaPhotoVideo } from "react-icons/fa";
+import { MdDashboardCustomize } from "react-icons/md";
+import { RiInformation2Fill } from "react-icons/ri";
+import { MyContext } from '../MyContext/Mycontext';
 
 const Sidebar = () => {
+  const { getProfile, profile } = useContext(MyContext);
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("profile sidebar", profile);
   const navigate = useNavigate();
   const navItems = [
-    { name: 'Dashboard', path: '/' },
-    { name: 'Post', path: '/post' },
-    { name: 'Users', path: '/users' },
-    { name: 'Answer', path: '/answer' },
-    { name: 'Settings', path: '/profile-list' },
+    { icon: <MdDashboardCustomize />, name: 'Dashboard', path: '/' },
+    { icon: <FaPhotoVideo />, name: 'Post', path: '/post' },
+    { icon: <FaUsers />, name: 'Users', path: '/users' },
+    { icon: <RiInformation2Fill />, name: 'About', path: '/about-details' },
+    { icon: <SiAnswer />, name: 'Answer', path: '/answer' },
+    { icon: <IoSettings />, name: 'Settings', path: '/profile-list' },
   ];
 
   const handleLogOut = () => {
     localStorage.removeItem('token');
     navigate('/login');
   }
-
+  useEffect(() => {
+    getProfile()
+  }, [])
   return (
     <div className="h-screen w-64 bg-blue-400 text-white flex flex-col shadow-lg">
-      {/* Logo */}
-      <div className="text-3xl font-bold p-6 border-b border-white/20 tracking-wide">
-        MJVideos
+      {/* Logo + Company Name */}
+      <div className="flex items-center gap-3 p-4 border-b border-white/20">
+        <img
+          src={`${API_BASE_URL}/uploads/${profile?.setting?.logo}`}
+          alt="Logo"
+          className="w-10 h-10 object-contain rounded-full"
+        />
+        <div className="text-xl md:text-2xl font-bold truncate">
+          {profile?.setting?.name || "Company Name"}
+        </div>
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-6">
-        <ul className="space-y-5">
+      <nav className="flex-1 p-4 overflow-y-auto">
+        <ul className="space-y-3">
           {navItems.map((item, index) => (
             <li key={index}>
               <NavLink
                 to={item.path}
                 className={({ isActive }) =>
-                  `flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-all duration-300
-                  ${isActive ? 'bg-white/20 font-semibold' : 'hover:bg-white/10'}`
+                  `flex items-center gap-3 p-3 rounded-md text-white transition-all duration-200 
+              ${isActive ? 'bg-white/30 font-semibold' : 'hover:bg-white/20'}`
                 }
               >
-                {/* You can add icons here if you want */}
-                <span className="text-lg font-medium">{item.name}</span>
+                <span className="text-xl">{item.icon}</span>
+                <span className="text-base font-bold">{item.name}</span>
               </NavLink>
             </li>
           ))}
@@ -45,15 +66,17 @@ const Sidebar = () => {
       </nav>
 
       {/* Logout */}
-      <div className="p-6 border-t border-white/20">
+      <div className="p-4 border-t border-white/20">
         <button
           onClick={handleLogOut}
-          className="w-full text-left flex items-center gap-4 p-3 rounded-lg cursor-pointer transition-all duration-300 hover:bg-white/10"
+          className="w-full flex items-center gap-3 p-3 rounded-md hover:bg-white/20 transition-all duration-200"
         >
-          <span className="text-lg font-medium">Logout</span>
+          <IoMdLogOut className="text-xl" />
+          <span className="text-base font-bold">Logout</span>
         </button>
       </div>
     </div>
+
   );
 };
 
