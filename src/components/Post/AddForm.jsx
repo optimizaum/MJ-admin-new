@@ -254,11 +254,8 @@ const AddForm = () => {
                                             </div>
                                         </div>
                                     ) : (
-                                        <input
-                                            type={field.type.toLowerCase()}
-                                            className="p-2 border rounded w-full"
-                                            required={field.required}
-                                        />
+                                        // 
+                                        <></>
                                     )}
 
                                     {/* {/* Render Button with Editable Properties */}

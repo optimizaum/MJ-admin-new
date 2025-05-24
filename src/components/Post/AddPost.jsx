@@ -2,11 +2,15 @@ import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MyContext } from '../../MyContext/Mycontext';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import dayjs from 'dayjs';
 const AddPost = () => {
   const { API_BASE_URL } = useContext(MyContext)
   const [newPost, setNewPost] = useState({
     title: '',
-    tags:'',
+    tags: '',
     file: null,
     description: '',
     postType: 'image',
@@ -66,10 +70,16 @@ const AddPost = () => {
     setNewPost({
       title: '',
       file: null,
-      tags:'',
+      tags: '',
       description: '',
       postType: 'image',
     });
+  };
+
+  const [scheduleTime, setScheduleTime] = useState(dayjs());
+
+  const handleTimeChange = (newValue) => {
+    setScheduleTime(newValue);
   };
 
   return (
@@ -131,6 +141,27 @@ const AddPost = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer"
               required
             />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="schedule-time" className="block text-lg font-semibold mb-2">
+              Schedule Time
+            </label>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <TimePicker
+                id="schedule-time"
+                value={scheduleTime}
+                onChange={handleTimeChange}
+                className="w-full"
+                slotProps={{
+                  textField: {
+                    fullWidth: true,
+                    size: 'small',
+                    // You can add extra Tailwind classes here by overriding sx if needed
+                  }
+                }}
+                label="" // label is outside so we keep this empty here
+              />
+            </LocalizationProvider>
           </div>
 
           <div className="mb-4">
