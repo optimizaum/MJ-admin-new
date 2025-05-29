@@ -58,22 +58,22 @@ const User = () => {
                                 <td className="py-4 px-6">{post.email}</td>
                                 {/* <td className="py-4 px-6">{post.contact}</td> */}
                                 <td className="py-4 px-6">
-                                    <button
+                                    {/* <button
                                         className="font-bold px-4 py-2 rounded-lg text-xl transition"
                                     >
                                         <RiEditBoxLine />
-                                    </button>
+                                    </button> */}
                                     <button
-                                        className="font-bold px-4 py-2 rounded-lg text-xl transition"
+                                        className="font-bold px-4 py-2 rounded-lg text-xl transition cursor-pointer"
                                     >
                                         <MdDelete />
                                     </button>
-                                    <button
+                                    {/* <button
                                         onClick={() => handleViewDetails(index)}
                                         className="font-bold px-4 py-2 rounded-lg text-xl transition"
                                     >
                                         <FaEye />
-                                    </button>
+                                    </button> */}
                                 </td>
                             </tr>
                         ))}

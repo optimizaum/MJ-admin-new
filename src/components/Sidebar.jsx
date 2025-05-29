@@ -72,7 +72,7 @@ const Sidebar = () => {
           className="w-full flex items-center gap-3 p-3 rounded-md hover:bg-white/20 transition-all duration-200"
         >
           <IoMdLogOut className="text-xl" />
-          <span className="text-base font-bold">Logout</span>
+          <span className="text-base font-bold cursor-pointer">Logout</span>
         </button>
       </div>
     </div>

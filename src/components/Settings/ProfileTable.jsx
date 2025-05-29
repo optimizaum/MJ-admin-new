@@ -40,7 +40,7 @@ const ProfileTable = () => {
                     <h2 className="text-2xl font-bold">Company Details</h2>
                     <button
                         onClick={handleAddProfile}
-                        className="px-3 py-2 bg-blue-400 text-white rounded-lg font-bold"
+                        className="px-3 py-2 bg-blue-400 text-white rounded-lg font-bold cursor-pointer"
                     >
                         Update Profile
                     </button>

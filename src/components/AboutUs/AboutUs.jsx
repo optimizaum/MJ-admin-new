@@ -9,38 +9,23 @@ const AboutUs = () => {
     });
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const token = localStorage.getItem('token');
-        if (!token) {
-            alert('Token not found. Please log in again.');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('logo', logo);
-
         try {
-            const response = await axios.post(`${API_BASE_URL}/admin/setting`, formData, {
+            const token = localStorage.getItem('token')
+            const response = await axios.post(`${API_BASE_URL}/admin/about-us`, formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            console.log("post about", response.data)
+            setFormData({
+                title: "",
+                description: "",
             });
 
-            console.log('Success:', response.data);
-            alert('Settings saved successfully!');
-            setName('');
-            setLogo(null);
-            setLogoPreview(null);
         } catch (error) {
-            console.error('Error:', error);
-            if (error.response && (error.response.status === 401 || error.response.status === 403)) {
-                alert('Token is invalid or expired. Please log in again.');
-                localStorage.removeItem('token');
-            } else {
-                alert('Something went wrong. Please try again.');
-            }
+            console.error(error)
         }
+
     };
 
     const handleChange = (e) => {
@@ -84,7 +69,7 @@ const AboutUs = () => {
                 </div>
                 <button
                     type="submit"
-                    className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+                    className="bg-blue-500 cursor-pointer text-white px-6 py-2 rounded-lg hover:bg-blue-600"
                 >
                     Add About
                 </button>

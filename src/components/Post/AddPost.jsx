@@ -8,12 +8,15 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from 'dayjs';
 const AddPost = () => {
   const { API_BASE_URL } = useContext(MyContext)
+  const [errors, setErrors] = useState({});
   const [newPost, setNewPost] = useState({
     title: '',
     tags: '',
     file: null,
     description: '',
     postType: 'image',
+    visibleFrom: '',
+    time: ''
   });
 
   const navigate = useNavigate();
@@ -43,13 +46,28 @@ const AddPost = () => {
 
   const handleFormNext = async (e) => {
     e.preventDefault();
+    const newErrors = {};
+
+    if (newPost.visibleFrom && !newPost.time) {
+      newErrors.time = "Time is required .";
+      alert("Please select  time ");
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
-      console.log(newPost);
+      console.log("post details ", newPost);
+
       const formData = new FormData();
       formData.append('title', newPost.title)
       formData.append('file', newPost.file)
       formData.append('description', newPost.description)
       formData.append('sourceType', newPost.postType)
+      formData.append('time', newPost.time);
+      formData.append('visibleFrom', newPost.visibleFrom)
       const response = await axios.post(`${API_BASE_URL}/sources`, formData)
       console.log(response);
       const sourceId = response?.data?.data?._id
@@ -81,6 +99,9 @@ const AddPost = () => {
   const handleTimeChange = (newValue) => {
     setScheduleTime(newValue);
   };
+
+
+
 
   return (
     <div>
@@ -142,28 +163,35 @@ const AddPost = () => {
               required
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="schedule-time" className="block text-lg font-semibold mb-2">
-              Schedule Time
-            </label>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-              <TimePicker
-                id="schedule-time"
-                value={scheduleTime}
-                onChange={handleTimeChange}
-                className="w-full"
-                slotProps={{
-                  textField: {
-                    fullWidth: true,
-                    size: 'small',
-                    // You can add extra Tailwind classes here by overriding sx if needed
-                  }
-                }}
-                label="" // label is outside so we keep this empty here
-              />
-            </LocalizationProvider>
-          </div>
+          <div className='flex flex-wrap gap-3'>
+            <div className="flex-1 mb-4">
+              <label htmlFor="schedule-time" className="block text-lg font-semibold mb-2">
+                Schedule Date
+              </label>
+              <input
+                type="date"
+                id="visibleFrom"
+                name='visibleFrom'
+                onChange={handlePostChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer" />
+            </div>
 
+            <div className="flex-1 mb-4">
+              <label htmlFor="schedule-time" className="block text-lg font-semibold mb-2">
+                Schedule Time
+              </label>
+              <input
+                type="time"
+                id="time"
+                name='time'
+                disabled={!newPost.visibleFrom}
+                value={newPost.time}
+                onChange={handlePostChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer" />
+            </div>
+
+
+          </div>
           <div className="mb-4">
             <label htmlFor="tags" className="block text-lg font-semibold">Tag</label>
             <input
@@ -190,6 +218,7 @@ const AddPost = () => {
           <div className="flex justify-end space-x-4">
             <button
               type="submit"
+
               className="bg-blue-400 text-white px-6 py-2 rounded-lg hover:bg-blue-500 cursor-pointer"
             >
               Next

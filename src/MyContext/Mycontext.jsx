@@ -10,7 +10,8 @@ const MyContextProvider = (props) => {
     const [userData, setUserData] = useState(false);
     const [userSingleData, setUserSingleData] = useState([]);
     const [updatePostData, setupdatePostData] = useState([]);
-
+    const [allAbout, setAllAbout] = useState([])
+    const [singleAbout, setSingleAbout] = useState({})
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     // -------------display all post data--------------
@@ -98,7 +99,7 @@ const MyContextProvider = (props) => {
         try {
             const response = await axios.get(`${API_BASE_URL}/admin/answer`, {
             });
-            console.log("response- answer------------", response.data.data);
+            console.log("response answer------------", response.data.data);
             setAnswerData(response?.data?.data);
         } catch (error) {
             console.error('Error:', error);
@@ -124,7 +125,28 @@ const MyContextProvider = (props) => {
             toast.error(error.response?.data?.message || error.message);
         }
     };
+    // -----------------fetch all about us data------------------
+    const fetchAllAbout = async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/about-us`, {})
+            console.log("respone about", response)
+            setAllAbout(response?.data);
+        } catch (error) {
+            console.error("fetching error all about")
+        }
 
+    }
+
+    // ---------------------fetch single about us data--------------------------
+    const fetchSingleAbout = async (id) => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/admin/about-us/${id}`, {});
+            setSingleAbout(response.data);
+        } catch (error) {
+            console.error(error)
+        }
+
+    }
     const value = {
         postData,
         getPostData,
@@ -140,7 +162,11 @@ const MyContextProvider = (props) => {
         fetchAnswer,
         API_BASE_URL,
         answerId,
-        fetchSingleAnswer
+        fetchSingleAnswer,
+        allAbout,
+        fetchAllAbout,
+        singleAbout,
+        fetchSingleAbout
     };
 
     return (

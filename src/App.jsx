@@ -20,6 +20,8 @@ import AboutUs from './components/AboutUs/AboutUs';
 import AboutAll from './components/AboutUs/AboutAllDetails';
 import AboutAllDetails from './components/AboutUs/AboutAllDetails';
 import { MyContext } from './MyContext/Mycontext';
+import ViewDetails from './components/AboutUs/ViewDetails';
+import EditAbout from './components/AboutUs/EditAbout';
 
 function App() {
   const navigate = useNavigate();
@@ -70,6 +72,9 @@ function App() {
         <Route path="update_custom-form/:id" element={<UpdateCustomForm />} />
         <Route path='/about' element={<AboutUs />} />
         <Route path='/about-details' element={<AboutAllDetails />} />
+        <Route path='/view-details/:id' element={<ViewDetails />} />
+        <Route path='/edit-aboutus/:id' element={<EditAbout />} />
+
       </Route>
     </Routes>
   );

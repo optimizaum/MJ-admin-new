@@ -10,6 +10,7 @@ const Answer = () => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(3);
     const { answerData, fetchAnswer } = useContext(MyContext);
+    console.log("-",answerData)
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -37,9 +38,9 @@ const Answer = () => {
                 <table className="min-w-full bg-white rounded-xl overflow-hidden shadow-md">
                     <thead className="bg-blue-400 text-white">
                         <tr>
-                            <th className="py-3 px-3 text-left">Title</th>
-                            <th className="py-3 px-3 text-left">Type</th>
-                            <th className="py-3 px-3 text-left">Source</th>
+                            <th className="py-3 px-3 text-left">User Name</th>
+                            {/* <th className="py-3 px-3 text-left">Type</th> */}
+                            {/* <th className="py-3 px-3 text-left">Source</th> */}
                             <th className="py-3 px-3 text-left">Question</th>
                             <th className="py-3 px-3 text-left">Answer</th>
                             <th className="py-3 px-3 text-left">Actions</th>
@@ -53,9 +54,9 @@ const Answer = () => {
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((post, index) => (
                                 <tr key={post._id || index} className="border-b">
-                                    <td className="py-4 px-3">{post?.source?.title || 'NA'}</td>
-                                    <td className="py-4 px-3">{post?.source?.sourceType || 'NA'}</td>
-                                    <td className="py-4 px-3">{post?.source?.source?.slice(0, 10) || 'NA'}</td>
+                                    <td className="py-4 px-3">{post?.userData?.name || 'NA'}</td>
+                                    {/* <td className="py-4 px-3">{post?.userData?.sourceType || 'NA'}</td> */}
+                                    {/* <td className="py-4 px-3">{post?.userData?.source?.slice(0, 10) || 'NA'}</td> */}
                                     <td className="py-4 px-3">{post?.responses?.[0]?.label?.slice(0, 15) || 'NA'}</td>
                                     <td className="py-4 px-3">{post?.responses?.[0]?.value?.slice(0, 15) || 'NA'}</td>
                                     <td className="py-4 px-3 flex gap-2">
