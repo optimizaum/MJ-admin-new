@@ -2,6 +2,7 @@ import axios from "axios";
 import { createContext, useState } from "react";
 import React from "react";
 import { toast } from 'react-toastify';
+import axiosInstance from "../utils/axiosInstance";
 
 export const MyContext = createContext();
 const MyContextProvider = (props) => {
@@ -47,7 +48,7 @@ const MyContextProvider = (props) => {
     // ----------------get all user data-------------------
     const getUserData = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/admin/allUser`, {
+            const response = await axiosInstance.get(`${API_BASE_URL}/admin/allUser`, {
                 headers: {
                     Authorization: `${localStorage.getItem("token")}`, 
                 },
@@ -70,7 +71,7 @@ const MyContextProvider = (props) => {
                 formData.append('file', data.file);
             }
 
-            const response = await axios.put(`${API_BASE_URL}/sources/${_id}`, formData, {
+            const response = await axiosInstance.put(`${API_BASE_URL}/sources/${_id}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -100,7 +101,7 @@ const MyContextProvider = (props) => {
 
     const fetchAnswer = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/admin/answer`, {
+            const response = await axiosInstance.get(`${API_BASE_URL}/admin/answer`, {
                 headers : {
                     Authorization : `${localStorage.getItem('token')}`,
                 }
@@ -116,7 +117,7 @@ const MyContextProvider = (props) => {
     const fetchSingleAnswer = async (id) => {
         try {
             console.log("Answer ID passed:", id);
-            const response = await axios.get(`${API_BASE_URL}/admin/answer/${id}`);
+            const response = await axiosInstance.get(`${API_BASE_URL}/admin/answer/${id}`);
             console.log("Fetched single answer ====", response.data);
 
             if (response.data.length) {
@@ -134,7 +135,7 @@ const MyContextProvider = (props) => {
     // -----------------fetch all about us data------------------
     const fetchAllAbout = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/about-us`, {
+            const response = await axiosInstance.get(`${API_BASE_URL}/about-us`, {
                 headers:{
                     Authorization:`${localStorage.getItem('token')}`
                 }

@@ -1,17 +1,26 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { FaVideo, FaUsers, FaClipboardList, FaCog } from 'react-icons/fa';
+import { MyContext } from '../MyContext/Mycontext';
 
 const Dashboard = () => {
+
+
+  const { fetchAnswer } = useContext(MyContext);
+  useEffect(() => {
+    fetchAnswer();
+  }, [])
+
+
   return (
     <div className="flex min-h-screen bg-gray-100">
-      
+
 
       {/* Main Content */}
       <main className="flex-1 p-8">
         {/* Header */}
         <header className="flex justify-between items-center mb-8">
           <h1 className="text-3xl font-bold text-gray-700">Dashboard</h1>
-          
+
         </header>
 
         {/* Cards */}
