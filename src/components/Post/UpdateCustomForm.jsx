@@ -125,7 +125,11 @@ const UpdateCustomForm = () => {
     };
 
     try {
-      const response = await axios.put(`${API_BASE_URL}/form/${formId}`, updatedForm);
+      const response = await axios.put(`${API_BASE_URL}/admin/form/${formId}`, updatedForm,{
+        headers: {
+          Authorization: `${localStorage.getItem('token')}`
+        }
+      });
       console.log("Form updated successfully", response.data);
       toast.success("Form submitted successfully!");
       setTimeout(() => {

@@ -135,10 +135,10 @@ const AddForm = () => {
         };
 
         try {
-            const response = await axios.post(`${API_BASE_URL}/form`, payLoad, {
+            const response = await axios.post(`${API_BASE_URL}/admin/form`, payLoad, {
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    Authorization: `${localStorage.getItem("token")}`,  // ✅ FIXED: no "Bearer "
                 },
             });
 

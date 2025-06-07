@@ -13,7 +13,7 @@ const AboutUs = () => {
             const token = localStorage.getItem('token')
             const response = await axios.post(`${API_BASE_URL}/admin/about-us`, formData, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `${token}`
                 }
             })
             console.log("post about", response.data)

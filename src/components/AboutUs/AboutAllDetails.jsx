@@ -41,7 +41,7 @@ const AboutAllDetails = () => {
             const token = localStorage.getItem('token')
             const response = await axios.delete(`${API_BASE_URL}/admin/about-us/${id}`, {
                 headers: {
-                    Authorization: `Bearer ${token}`
+                    Authorization: `${token}`
                 }
             })
             if (response.status === 200) {

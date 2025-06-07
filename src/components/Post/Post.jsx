@@ -45,7 +45,11 @@ const Post = () => {
     const handleDelete = async (id) => {
 
         try {
-            const response = await axios.delete(`${API_BASE_URL}/sources/${id}`);
+            const response = await axios.delete(`${API_BASE_URL}/admin/sources/${id}`,{
+                headers:{
+                    Authorization: `${localStorage.getItem('token')}`
+                }
+            });
             if (response.status === 200) {
                 toast.success('Post Deleted Successfully');
                 getPostData();
@@ -85,7 +89,7 @@ const Post = () => {
                             <tr key={index} className="border-b">
                                 <td className="py-4 px-6">{post.title}</td>
                                 <td className="py-4 px-6">{post.sourceType}</td>
-                                <td className="py-4 px-6">
+                                {/* <td className="py-4 px-6">
                                     {post.source?.match(/\.(jpeg|jpg|png|gif|webp)$/i) ? (
                                         <img
                                             src={`${API_BASE_URL}/uploads/${post.source}`}
@@ -101,7 +105,29 @@ const Post = () => {
                                     ) : (
                                         <span>No preview</span>
                                     )}
+                                </td> */}
+                                <td className="py-4 px-6">
+                                    {post.source ? (
+                                        post.source.match(/\.(jpeg|jpg|png|gif|webp)$/i) ? (
+                                            <img
+                                                src={`${API_BASE_URL}/uploads/${post.source}`}
+                                                alt={post.title}
+                                                className="w-16 h-16 object-cover rounded-md"
+                                            />
+                                        ) : post.source.match(/\.(mp4|webm|ogg|avi|mov|mkv|flv|3gp)$/i) ? (
+                                            <video
+                                                src={`${API_BASE_URL}/uploads/${post.source}`}
+                                                controls
+                                                className="w-24 h-16 object-cover rounded-md"
+                                            />
+                                        ) : (
+                                            <span className="text-red-600">Unsupported Format</span>
+                                        )
+                                    ) : (
+                                        <span className="text-gray-500 italic">No source</span>
+                                    )}
                                 </td>
+
 
                                 <td className="py-4 px-6">{post.views}</td>
                                 <td className="py-4 px-6">{post.description}</td>

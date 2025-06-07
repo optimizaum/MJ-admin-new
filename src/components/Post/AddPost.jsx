@@ -6,17 +6,34 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs from 'dayjs';
+
+
 const AddPost = () => {
   const { API_BASE_URL } = useContext(MyContext)
   const [errors, setErrors] = useState({});
+
+  const now = new Date();
+  const currentDate = now.toISOString().split("T")[0]; // yyyy-mm-dd
+  const currentTime = getCurrentTime24Hour();
+
+  function getCurrentTime24Hour() {
+    const now = new Date();
+    const hours = now.getHours();
+    const minutes = now.getMinutes();
+    const hoursStr = hours < 10 ? '0' + hours : hours;
+    const minutesStr = minutes < 10 ? '0' + minutes : minutes;
+    return `${hoursStr}:${minutesStr}`;  // e.g. "14:45"
+  }
+
+
   const [newPost, setNewPost] = useState({
     title: '',
     tags: '',
     file: null,
     description: '',
     postType: 'image',
-    visibleFrom: '',
-    time: ''
+    visibleFrom: currentDate,
+    time: currentTime
   });
 
   const navigate = useNavigate();
@@ -68,7 +85,19 @@ const AddPost = () => {
       formData.append('sourceType', newPost.postType)
       formData.append('time', newPost.time);
       formData.append('visibleFrom', newPost.visibleFrom)
-      const response = await axios.post(`${API_BASE_URL}/sources`, formData)
+
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${API_BASE_URL}/admin/sources`,
+        formData,
+        {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
       console.log(response);
       const sourceId = response?.data?.data?._id
       console.log(sourceId)
@@ -157,7 +186,7 @@ const AddPost = () => {
               type="file"
               id="file"
               name="file"
-              accept={newPost.postType === 'image' ? 'image/*' : 'video/*'}
+              accept={newPost.postType === 'image' ? 'image/*' : '.mp4,.webm,.mov,.avi,.mkv,.flv,.3gp'}
               onChange={handleFileChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer"
               required
@@ -168,26 +197,46 @@ const AddPost = () => {
               <label htmlFor="schedule-time" className="block text-lg font-semibold mb-2">
                 Schedule Date
               </label>
-              <input
+              {/* <input
                 type="date"
                 id="visibleFrom"
                 name='visibleFrom'
                 onChange={handlePostChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer" />
+                className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer" /> */}
+
+              <input
+                type="date"
+                id="visibleFrom"
+                name="visibleFrom"
+                value={newPost.visibleFrom}   // set default date here
+                onChange={handlePostChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer"
+              />
             </div>
 
             <div className="flex-1 mb-4">
               <label htmlFor="schedule-time" className="block text-lg font-semibold mb-2">
                 Schedule Time
               </label>
-              <input
+              {/* <input
                 type="time"
                 id="time"
                 name='time'
                 disabled={!newPost.visibleFrom}
                 value={newPost.time}
                 onChange={handlePostChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer" />
+                className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer" /> */}
+
+
+              <input
+                type="time"
+                id="time"
+                name="time" 
+                value={newPost.time}
+                onChange={handlePostChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md cursor-pointer"
+              />
+
             </div>
 
 
@@ -219,14 +268,14 @@ const AddPost = () => {
             <button
               type="submit"
 
-              className="bg-blue-400 text-white px-6 py-2 rounded-lg hover:bg-blue-500 cursor-pointer"
+              className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 cursor-pointer"
             >
               Next
             </button>
             <button
               type="button"
               onClick={handleCancel}
-              className="bg-gray-400 text-white px-6 py-2 rounded-lg hover:bg-gray-500 cursor-pointer"
+              className="bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 cursor-pointer"
             >
               Cancel
             </button>

@@ -47,7 +47,10 @@ const MyContextProvider = (props) => {
     // ----------------get all user data-------------------
     const getUserData = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/allUser`, {
+            const response = await axios.get(`${API_BASE_URL}/admin/allUser`, {
+                headers: {
+                    Authorization: `${localStorage.getItem("token")}`, 
+                },
             });
             console.log("response-------------", response);
             setUserData(response?.data?.allUserData);
@@ -98,6 +101,9 @@ const MyContextProvider = (props) => {
     const fetchAnswer = async () => {
         try {
             const response = await axios.get(`${API_BASE_URL}/admin/answer`, {
+                headers : {
+                    Authorization : `${localStorage.getItem('token')}`,
+                }
             });
             console.log("response answer------------", response.data.data);
             setAnswerData(response?.data?.data);
@@ -128,7 +134,11 @@ const MyContextProvider = (props) => {
     // -----------------fetch all about us data------------------
     const fetchAllAbout = async () => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/about-us`, {})
+            const response = await axios.get(`${API_BASE_URL}/about-us`, {
+                headers:{
+                    Authorization:`${localStorage.getItem('token')}`
+                }
+            })
             console.log("respone about", response)
             setAllAbout(response?.data);
         } catch (error) {
@@ -140,7 +150,11 @@ const MyContextProvider = (props) => {
     // ---------------------fetch single about us data--------------------------
     const fetchSingleAbout = async (id) => {
         try {
-            const response = await axios.get(`${API_BASE_URL}/admin/about-us/${id}`, {});
+            const response = await axios.get(`${API_BASE_URL}/admin/about-us/${id}`, {
+                headers:{
+                    Authorization:`${localStorage.getItem('token')}`
+                }
+            });
             setSingleAbout(response.data);
         } catch (error) {
             console.error(error)
