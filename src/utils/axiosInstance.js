@@ -12,13 +12,18 @@ axiosInstance.interceptors.response.use(
     const errMessage = error.response?.data?.message;
     const status = error.response?.status;
 
+    console.log("my msg : " ,errMessage );
+    
+
     if ( 
       errMessage?.toLowerCase().includes("invalid token") ||
       errMessage?.toLowerCase().includes("unauthorized")||
-      errMessage?.toLowerCase().includes("expired token")
-
+      errMessage?.toLowerCase().includes("expired token")||
+      errMessage?.toLowerCase().includes("access denied")
     ) {
-      localStorage.removeItem("token");
+      console.log("inside clear");
+      
+      localStorage.clear("token");
       window.location.href = "/login";
     }
 
