@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { MyContext } from '../../MyContext/Mycontext';
+import { useNavigate } from 'react-router-dom';
 
 const ChangePassword = () => {
     const { API_BASE_URL } = useContext(MyContext);
@@ -10,6 +11,7 @@ const ChangePassword = () => {
         confirmPassword: '',
     });
 
+    const navigate = useNavigate();
     const [showPasswords, setShowPasswords] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -51,6 +53,8 @@ const ChangePassword = () => {
 
             alert('Password changed successfully!');
             setForm({ oldPassword: '', newPassword: '', confirmPassword: '' });
+            localStorage.clear();
+            navigate("/login");
         } catch (err) {
             alert(err.message || 'Something went wrong');
         } finally {
