@@ -22,6 +22,7 @@ import AboutAllDetails from './components/AboutUs/AboutAllDetails';
 import { MyContext } from './MyContext/Mycontext';
 import ViewDetails from './components/AboutUs/ViewDetails';
 import EditAbout from './components/AboutUs/EditAbout';
+import ChangePassword from './components/ChangepPassword/ChangePassword';
 
 function App() {
   const navigate = useNavigate();
@@ -74,6 +75,7 @@ function App() {
         <Route path='/about-details' element={<AboutAllDetails />} />
         <Route path='/view-details/:id' element={<ViewDetails />} />
         <Route path='/edit-aboutus/:id' element={<EditAbout />} />
+        <Route path='/change-password' element={<ChangePassword/>}/>
 
       </Route>
     </Routes>

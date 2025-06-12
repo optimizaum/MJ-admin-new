@@ -19,7 +19,8 @@ axiosInstance.interceptors.response.use(
       errMessage?.toLowerCase().includes("invalid token") ||
       errMessage?.toLowerCase().includes("unauthorized")||
       errMessage?.toLowerCase().includes("expired token")||
-      errMessage?.toLowerCase().includes("access denied")
+      errMessage?.toLowerCase().includes("access denied") ||
+      errMessage?.toLowerCase().includes("token is invalid") 
     ) {
       console.log("inside clear");
       

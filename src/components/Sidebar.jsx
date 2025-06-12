@@ -22,6 +22,7 @@ const Sidebar = () => {
     { icon: <RiInformation2Fill />, name: 'About', path: '/about-details' },
     { icon: <SiAnswer />, name: 'Answer', path: '/answer' },
     { icon: <IoSettings />, name: 'Settings', path: '/profile-list' },
+    { icon: <IoSettings />, name: 'Change password', path: '/change-password' },
   ];
 
   const handleLogOut = () => {
